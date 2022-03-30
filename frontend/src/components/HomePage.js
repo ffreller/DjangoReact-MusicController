@@ -14,12 +14,11 @@ export default class HomePage extends Component {
             <div>
                 <Router>
                     <Routes>
-                        <Route exact path="/" element={<h1>This is the home page</h1> } />
-                        {/* <Route exact path="/">
-                            element=<h1>This is the home page!!!!</h1>
-                        </Route> */}
+                        <Route exact path="/" element={
+                            <h1>This is the home page</h1>
+                        } />
                         <Route exact path="/join" element={<RoomJoinPage />} />
-                        <Route exact path="/create" element={CreateRoomPage} />
+                        <Route exact path="/create" element={<CreateRoomPage />} />
                     </Routes>
                 </Router>
             </div>
