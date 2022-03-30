@@ -1,5 +1,7 @@
-import React, { Component } from 'react';
+import { Home } from '@material-ui/icons';
 import { render } from 'react-dom';
+import React, { Component } from 'react';
+import HomePage from './HomePage';
 
 export default class App extends Component {
     constructor(props) {
@@ -7,9 +9,13 @@ export default class App extends Component {
     }
 
     render() {
-        return <h1>{this.props.name}</h1>;
+        return(
+            <div>
+                <HomePage />
+            </div>         
+        );
     }
 }
 
 const appDiv = document.getElementById('app');
-render(<App nmae="Fabio"/>, appDiv);
+render(<App />, appDiv);
