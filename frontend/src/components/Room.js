@@ -14,7 +14,7 @@ function Room(props) {
   const [roomData, setRoomData] = useState(initialState)
 
    useEffect(() => {
-    fetch("/api/get-room" + "?code=" + roomCode)
+    fetch("/api/get_room" + "?code=" + roomCode)
       .then(res => res.json())
       .then(data => {
         setRoomData({

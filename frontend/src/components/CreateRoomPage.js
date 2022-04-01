@@ -1,13 +1,7 @@
 import React, { Component } from 'react';
-import Button from '@material-ui/core/Button';
-import Grid from '@material-ui/core/Grid';
-import Typography from '@material-ui/core/Typography';
-import TextField from '@material-ui/core/TextField';
-import FormHelperText from '@material-ui/core/FormHelperText';
-import FormControl from '@material-ui/core/FormControl';
-import Radio from '@material-ui/core/Radio';
-import RadioGroup from '@material-ui/core/RadioGroup';
-import FormControlLabel from '@material-ui/core/FormControlLabel';
+import { TextField, Button, Grid, Typography, FormHelperText,
+            FormControl, Radio, RadioGroup, FormControlLabel}
+        from '@material-ui/core';
 import { Link } from 'react-router-dom';
 import {withRouter} from './withRouter';
 
@@ -49,7 +43,7 @@ class CreateRoomPage extends Component {
                 isHost: this.state.isHost
             }),
         };
-        fetch('/api/create-room', requestOptions)
+        fetch('/api/create_room', requestOptions)
             .then((response) => response.json())
             .then((data) => this.props.navigate("/room/" + data.code));
         
