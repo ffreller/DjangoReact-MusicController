@@ -1,16 +1,8 @@
 import React, { useState, useEffect} from 'react'
 import { Grid, Typography, Button} from '@material-ui/core';
 import  { useParams } from 'react-router-dom'
+import AddButton from './LeaveRoom';
 
-function leaveButtonClicked() {
-    const requestOptions = {
-    method: 'POST',
-    headers: { 'Content-Type': 'application/json', 'Accept': 'application/json'}
-  };
-  fetch('/api/leave_room', requestOptions).then((_response) => {
-    this.props.navigate();
-  });
-}
 
 function Room() {
   const roomCode = useParams().roomCode;
@@ -19,6 +11,8 @@ function Room() {
     guest_can_pause: false,
     is_host: false
   }
+
+//   const leaveButtonClicked = leaveButtonClicked;
   
   const [roomData, setRoomData] = useState(initialState)
 
@@ -57,9 +51,7 @@ function Room() {
         </Typography>
       </Grid>
       <Grid item xs={12} align="center">
-        <Button color="secondary" variant="contained" to="/" onClick={leaveButtonClicked}>
-          Sair da sala
-        </Button>
+        <AddButton/>
       </Grid>
     </Grid>
   )

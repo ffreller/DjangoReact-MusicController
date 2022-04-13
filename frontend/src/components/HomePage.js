@@ -7,6 +7,7 @@ import { ButtonGroup, Button, Grid, Typography } from '@material-ui/core';
 import { Navigate } from 'react-router-dom';
 
 export default class HomePage extends Component {
+    
     constructor(props) {
         super(props);
         this.state = {

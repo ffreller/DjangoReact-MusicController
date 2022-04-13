@@ -36,10 +36,9 @@ class RoomJoinPage extends Component {
             } else {
                 this.setState({
                     error: true,
+                    error_message: 'Room not found',
                 });
             }
-        }).catch((error) =>{
-            console.log(error);
         });
             
     }
@@ -58,7 +57,7 @@ class RoomJoinPage extends Component {
                         label="Código"
                         placeholder="Digite o código da sala"
                         value={this.state.roomCode}
-                        helperText={this.state.error.toString()}
+                        helperText={this.state.error_message}
                         variant="outlined"
                         onChange = {this.handleTextFieldChange}
                     />
