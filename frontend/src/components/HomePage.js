@@ -13,6 +13,7 @@ export default class HomePage extends Component {
         this.state = {
             roomCode: null
         };
+        this.clearRoomCode = this.clearRoomCode.bind(this);
     }
 
     async componentDidMount() {
@@ -70,7 +71,7 @@ export default class HomePage extends Component {
                         />
                         <Route exact path="/join" element={<RoomJoinPage />} />
                         <Route exact path="/create" element={<CreateRoomPage />} />
-                        <Route path="/room/:roomCode" element={<Room />} />
+                        <Route path="/room/:roomCode" element={<Room />} render = {() => this.clearRoomCode()}/>
                     </Routes>
                 </Router>
             </div>

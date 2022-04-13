@@ -39,7 +39,8 @@ class CreateRoomPage extends Component {
             headers: { 'Content-Type': 'application/json', 'Accept': 'application/json'},
             body: JSON.stringify({
                 votes_to_skip: this.state.votes_to_skip,
-                guest_can_pause: this.state.guest_can_pause
+                guest_can_pause: this.state.guest_can_pause,
+                isHost: this.state.isHost
             }),
         };
         

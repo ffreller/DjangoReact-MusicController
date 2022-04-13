@@ -1,24 +1,31 @@
 import React, { useState, useEffect} from 'react'
 import { Grid, Typography, Button} from '@material-ui/core';
-import  { useParams } from 'react-router-dom'
-import AddButton from './LeaveRoom';
+import  { useParams, useNavigate } from 'react-router-dom'
+import AddButton from './LeaveRoomButton';
+// import LeaveRoom from './LeaveRoomCallBack';
 
 
 function Room() {
-  const roomCode = useParams().roomCode;
+  let roomCode = useParams().roomCode;
   const initialState = {
     votes_to_skip: 2,
     guest_can_pause: false,
     is_host: false
   }
 
-//   const leaveButtonClicked = leaveButtonClicked;
+  let leaveRoom = LeaveRoom;
   
   const [roomData, setRoomData] = useState(initialState)
-
-   useEffect(() => {
+  let navigate = useNavigate();
+  useEffect(() => {
     fetch("/api/get_room" + "?code=" + roomCode)
-      .then(res => res.json())
+      .then(response => {
+        if (!response.ok) {
+          navigate('/');
+        }
+        return response.json();
+      })
+
       .then(data => {
         setRoomData({
           ...roomData, 
@@ -27,7 +34,8 @@ function Room() {
           is_host: data.is_host,
         })
       })
-  },[roomCode,setRoomData]) //It renders when the object changes .If we use roomData and/or roomCode then it rerenders infinite times
+  },[roomCode,setRoomData])
+  
   return (
     <Grid container spacing={1} alignItems="center">
       <Grid item xs={12} align="center">
@@ -51,7 +59,7 @@ function Room() {
         </Typography>
       </Grid>
       <Grid item xs={12} align="center">
-        <AddButton/>
+        <AddButton/ >
       </Grid>
     </Grid>
   )
