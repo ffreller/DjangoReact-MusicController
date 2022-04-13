@@ -1,16 +1,25 @@
 import React, { useState, useEffect} from 'react'
+import { Grid, Typography, Button} from '@material-ui/core';
 import  { useParams } from 'react-router-dom'
 
-function Room(props) {
-//   const roomCode = useState(props.match.params)
+function leaveButtonClicked() {
+    const requestOptions = {
+    method: 'POST',
+    headers: { 'Content-Type': 'application/json', 'Accept': 'application/json'}
+  };
+  fetch('/api/leave_room', requestOptions).then((_response) => {
+    this.props.navigate();
+  });
+}
+
+function Room() {
   const roomCode = useParams().roomCode;
-  
   const initialState = {
     votes_to_skip: 2,
     guest_can_pause: false,
     is_host: false
   }
-
+  
   const [roomData, setRoomData] = useState(initialState)
 
    useEffect(() => {
@@ -25,14 +34,34 @@ function Room(props) {
         })
       })
   },[roomCode,setRoomData]) //It renders when the object changes .If we use roomData and/or roomCode then it rerenders infinite times
-
   return (
-    <div>
-      <h3>{roomCode}</h3>
-      <p>Votes: {roomData.votes_to_skip}</p>  
-      <p>Guests can pause: {roomData.guest_can_pause.toString()}</p>
-      <p>Host: {roomData.is_host.toString()}</p>  
-    </div>
+    <Grid container spacing={1} alignItems="center">
+      <Grid item xs={12} align="center">
+        <Typography component="h4" variant="h4">
+          Código: {roomCode}
+        </Typography>
+      </Grid>
+      <Grid item xs={12} align="center">
+        <Typography component="h6" variant="h6">
+          Votos: {roomData.votes_to_skip.toString()}
+        </Typography>
+      </Grid>
+      <Grid item xs={12} align="center">
+        <Typography component="h6" variant="h6">
+          Pode pausar: {roomData.guest_can_pause.toString()}
+        </Typography>
+      </Grid>
+      <Grid item xs={12} align="center">
+        <Typography component="h6" variant="h6">
+          Anfitrião: {roomData.is_host.toString()}
+        </Typography>
+      </Grid>
+      <Grid item xs={12} align="center">
+        <Button color="secondary" variant="contained" to="/" onClick={leaveButtonClicked}>
+          Sair da sala
+        </Button>
+      </Grid>
+    </Grid>
   )
 }
 

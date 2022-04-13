@@ -2,7 +2,7 @@ import React, { Component } from 'react';
 import RoomJoinPage from './RoomJoinPage';
 import CreateRoomPage from './CreateRoomPage';
 import Room from './Room';
-import { BrowserRouter as Router, Route, Routes, Link, Redirect, } from 'react-router-dom';
+import { BrowserRouter as Router, Route, Routes, Link } from 'react-router-dom';
 import { ButtonGroup, Button, Grid, Typography } from '@material-ui/core';
 import { Navigate } from 'react-router-dom';
 
@@ -46,6 +46,13 @@ export default class HomePage extends Component {
         );
     }
 
+    clearRoomCode(){
+        this.setState({
+            roomCode: null,
+        });
+    }
+
+
     render() {
         return (
             <div>
@@ -59,17 +66,6 @@ export default class HomePage extends Component {
                                     <Navigate replace to={"/room/"+this.state.roomCode} />
                                 ) : this.renderHomePage()
                             }
-                        />
-                        <Route
-                            exact
-                            path="/"
-                            render={() => {
-                                this.state.roomCode ? (
-                                    <Redirect to={'/room/' + this.state.roomCode}/>
-                                ) : (
-                                    renderHomePage()
-                                );
-                            }}
                         />
                         <Route exact path="/join" element={<RoomJoinPage />} />
                         <Route exact path="/create" element={<CreateRoomPage />} />

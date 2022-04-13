@@ -39,14 +39,14 @@ class CreateRoomPage extends Component {
             headers: { 'Content-Type': 'application/json', 'Accept': 'application/json'},
             body: JSON.stringify({
                 votes_to_skip: this.state.votes_to_skip,
-                guest_can_pause: this.state.guest_can_pause,
-                isHost: this.state.isHost
+                guest_can_pause: this.state.guest_can_pause
             }),
         };
+        
         fetch('/api/create_room', requestOptions)
             .then((response) => response.json())
             .then((data) => this.props.navigate("/room/" + data.code));
-        
+
     }
 
     render() {
@@ -97,7 +97,7 @@ class CreateRoomPage extends Component {
                 </Grid>
                 <Grid item xs={12} align="center">
                     <Button color="primary" variant="contained" onClick={this.handleRoomButtonClicked}>
-                        Criar um quarto
+                        Criar uma sala
                     </Button>
                 </Grid>
                 <Grid item xs={12} align="center">
