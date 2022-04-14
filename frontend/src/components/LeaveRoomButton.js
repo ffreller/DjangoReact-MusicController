@@ -2,7 +2,7 @@ import React from 'react'
 import { Button, Link} from '@material-ui/core';
 import { useNavigate} from "react-router-dom"
 
-function AddButton ({}) {
+function LeaveButton ({}) {
   let navigate = useNavigate();
   let leaveButtonClicked = () => {
     const requestOptions = {
@@ -21,5 +21,5 @@ function AddButton ({}) {
   )
 }
 
-export default AddButton
+export default LeaveButton
 

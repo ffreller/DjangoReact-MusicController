@@ -1,8 +1,8 @@
 import React, { useState, useEffect} from 'react'
 import { Grid, Typography, Button} from '@material-ui/core';
 import  { useParams, useNavigate } from 'react-router-dom'
-import AddButton from './LeaveRoomButton';
-// import LeaveRoom from './LeaveRoomCallBack';
+import LeaveButton from './LeaveRoomButton';
+import UpdateRoomPage from './UpdateRoomPage';
 
 
 function Room() {
@@ -10,10 +10,11 @@ function Room() {
   const initialState = {
     votes_to_skip: 2,
     guest_can_pause: false,
-    is_host: false
+    is_host: false,
+    show_settings: false,
   }
 
-  let leaveRoom = LeaveRoom;
+  // let leaveRoom = LeaveRoom;
   
   const [roomData, setRoomData] = useState(initialState)
   let navigate = useNavigate();
@@ -35,7 +36,52 @@ function Room() {
         })
       })
   },[roomCode,setRoomData])
-  
+
+  let updateShowSettings = (value, reload) => {
+    setRoomData({
+      ...roomData,
+      show_settings: value,
+    })
+    if (reload){
+      window.location.reload();
+    }
+  }
+
+
+  let renderSettings = () => {
+    return(
+      <Grid container spacing={1}>
+        <Grid item xs={12} align="center">
+          <UpdateRoomPage
+            update={true}
+            votes_to_skip={roomData.votes_to_skip}
+            guest_can_pause={roomData.guest_can_pause}
+            roomCode={roomCode}
+          />
+        </Grid>
+        <Grid item xs={12} align="center">
+          <Button variant="contained" color="secondary" onClick={() => updateShowSettings(false, true)}>
+            Fechar
+          </Button>
+        </Grid>
+      </Grid>
+    )
+  }
+
+
+  let renderSettingsButton = () => {
+    return(
+      <Grid item xs={12} align="center">
+        <Button variant="contained" color="primary" onClick={() => updateShowSettings(true, false)}>
+          Configrurações
+        </Button>
+      </Grid>
+    )
+  }
+
+  if (roomData.show_settings) {
+    return renderSettings();
+  }
   return (
     <Grid container spacing={1} alignItems="center">
       <Grid item xs={12} align="center">
@@ -58,8 +104,9 @@ function Room() {
           Anfitrião: {roomData.is_host.toString()}
         </Typography>
       </Grid>
+      {roomData.is_host ? renderSettingsButton() : null}
       <Grid item xs={12} align="center">
-        <AddButton/ >
+        <LeaveButton />
       </Grid>
     </Grid>
   )
