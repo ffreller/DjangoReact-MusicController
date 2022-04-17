@@ -12,9 +12,8 @@ function Room() {
     guest_can_pause: false,
     is_host: false,
     show_settings: false,
+    spotify_authenticated: false,
   }
-
-  // let leaveRoom = LeaveRoom;
   
   const [roomData, setRoomData] = useState(initialState)
   let navigate = useNavigate();
@@ -26,7 +25,6 @@ function Room() {
         }
         return response.json();
       })
-
       .then(data => {
         setRoomData({
           ...roomData, 
@@ -34,8 +32,34 @@ function Room() {
           guest_can_pause: data.guest_can_pause,
           is_host: data.is_host,
         })
+        return data;
       })
+      .then((data) => {
+        if (data.is_host) {
+          authenticateSpotify();
+        }
+      });
+
   },[roomCode,setRoomData])
+
+
+  let authenticateSpotify = () => {
+    fetch('/spotify/is_authenticated')
+      .then((response) => response.json())
+      .then(data => {
+        setRoomData({
+          ...roomData,
+          spotify_authenticated: data.is_authenticated,
+        })
+        if (!data.status) {
+          fetch('/spotify/get_auth_url')
+            .then((response) => response.json())
+            .then(data => {
+              window.location.replace(data.url);
+            })
+        }
+      })
+  }
 
   let updateShowSettings = (value, reload) => {
     setRoomData({

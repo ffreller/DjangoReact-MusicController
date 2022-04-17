@@ -17,17 +17,6 @@ export default class App extends Component {
         };
     }
 
-    async component() {
-        fetch('/api/user_in_room')
-        .then((response) => response.json())
-        .then((data) => {
-            this.setState({
-                roomCode: data.code,
-            });
-        });
-        console.log('oie')
-    }
-
     render() {
         return (
             <div>
