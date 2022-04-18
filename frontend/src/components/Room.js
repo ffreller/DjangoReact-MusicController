@@ -13,11 +13,15 @@ function Room() {
     guest_can_pause: false,
     is_host: false,
     show_settings: false,
+  }
+
+  const initialStateSpotify ={
     spotify_authenticated: null,
     song: {}
   }
   
   const [roomData, setRoomData] = useState(initialState)
+  const [spotifyData, setSpotifyData] = useState(initialStateSpotify)
   let navigate = useNavigate();
 
 
@@ -38,35 +42,34 @@ function Room() {
         })
         return data;
       })
-      .then((data) => {
-        if (data.is_host) {
-          authenticateSpotify();
-        }
+      .then(() => {
+        authenticateSpotify();
       })
   },[roomCode,setRoomData])
 
   
   useEffect(() => {
     const interval = setInterval(() => {
-      if (roomData.spotify_authenticated === null) {
+      if (spotifyData.spotify_authenticated === null) {
+        console.log('Nao entrou no spotify')
         return;
       }
       else{
-        console.log('oi')
+        console.log('atualizou')
         getCurrentSong();
       }  
     }, 1000);
     return () => clearInterval(interval);
 
-  },[roomData])
+  },[spotifyData, setSpotifyData])
 
 
   let authenticateSpotify = () => {
     fetch('/spotify/is_authenticated')
       .then((response) => response.json())
       .then(data => {
-        setRoomData({
-          ...roomData,
+        setSpotifyData({
+          ...spotifyData,
           spotify_authenticated: data.is_authenticated,
         })
         if (!data.is_authenticated) {
@@ -82,14 +85,15 @@ function Room() {
   let getCurrentSong = () => {
     fetch('/spotify/current_song').then((response) => {
       if (!response.ok) {
+        console.log(response)
         return {};
       }
       else{
         return response.json();
       }
     }).then((data => {
-      setRoomData({
-        ...roomData,
+      setSpotifyData({
+        ...spotifyData,
         song: data,
       })
     })
@@ -148,9 +152,9 @@ function Room() {
         </Typography>
       </Grid>
       <Grid item xs={12} align="center">
-      <MusicPLayer {...roomData.song}/>
+      <MusicPLayer {...spotifyData.song}/>
       </Grid>
-      {roomData.is_host ? renderSettingsButton() : null}
+        {roomData.is_host ? renderSettingsButton() : null}
       <Grid item xs={12} align="center">
         <LeaveButton />
       </Grid>

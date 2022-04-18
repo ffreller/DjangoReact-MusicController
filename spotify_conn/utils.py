@@ -54,7 +54,6 @@ def refresh_spotify_token(session_key):
     access_token = response.get('access_token')
     token_type = response.get('token_type')
     expires_in = response.get('expires_in')
-    refresh_token = refresh_token
 
     create_or_update_user_token(session_key=session_key, access_token=access_token,
                                 token_type=token_type, expires_in=expires_in, refresh_token=refresh_token)
@@ -77,3 +76,14 @@ def execute_spotify_api_request(session_key, endpoint, post_=False, put_=False):
         if len(response.content) == 0:
             return {'error': 'Response is empty'}
         return {'error': 'Response could not be transformed to json'}
+    
+
+def play_song(session_key):
+    return execute_spotify_api_request(session_key=session_key, endpoint='player/play', put_=True)
+
+
+def pause_song(session_key):
+    return execute_spotify_api_request(session_key=session_key, endpoint='player/pause', put_=True)
+
+def skip_song(session_key):
+    return execute_spotify_api_request(session_key=session_key, endpoint='player/next', post_=True)

@@ -6,6 +6,30 @@ function MusicPLayer (song) {
     
     const song_progress = (song.progress / song.duration) * 100;
 
+    let play_song = () => {
+        const requestOptions = {
+            method: 'PUT',
+            headers: { 'Content-Type': 'application/json'}
+        }
+        fetch('/spotify/play_song', requestOptions);
+    }
+
+    let pause_song = () => {
+        const requestOptions = {
+            method: 'PUT',
+            headers: { 'Content-Type': 'application/json'}
+        }
+        fetch('/spotify/pause_song', requestOptions);
+    }
+
+    let skip_song = () => {
+        const requestOptions = {
+            method: 'POST',
+            headers: { 'Content-Type': 'application/json'}
+        }
+        fetch('/spotify/skip_song', requestOptions);
+    }
+
     return (
         <Card>
             <Grid container alignItems="center">
@@ -20,10 +44,11 @@ function MusicPLayer (song) {
                         {song.artist}
                     </Typography>
                     <div>
-                        <IconButton>
+                        <IconButton onClick={() => {song.is_playing ? pause_song() : play_song()}}>
                             {song.is_playing ? <Pause /> : <PlayArrow />}
                         </IconButton>
-                        <IconButton>
+                        <IconButton onClick={() => skip_song()}>
+                            {song.votes} /{" "} {song.votes_to_skip}
                             <SkipNext />
                         </IconButton>
                     </div>
