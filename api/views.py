@@ -81,7 +81,6 @@ class UserInRoom(APIView):
         code = self.request.session.get('room_code')
         room_results = Room.objects.filter(code=code)
         if room_results.exists():
-            print(code, '!!!')
             data = {'code': code}
             return JsonResponse(data, status=status.HTTP_200_OK)
         data = {'code':''}
